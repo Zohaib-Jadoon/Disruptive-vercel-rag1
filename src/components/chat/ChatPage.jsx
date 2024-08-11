@@ -33,7 +33,7 @@ const ChatPage = () => {
           <Link>Documents</Link>
         </div>
         <SliderButton />
-        <div className="bg-[#4B4B4B] flex items-center rounded-3xl py-1.5 px-4 gap-5">
+        <div className="bg-[#4B4B4B] flex items-center rounded-full py-1.5 px-4 gap-5">
           <img className="w-6" src={bellIcon} alt="Bell Icon" />
           <img className="w-6" src={settings} alt="Settings Icon" />
           <img className="w-10" src={userIcon} alt="User Icon" />
