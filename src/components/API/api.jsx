@@ -1,48 +1,102 @@
-import React from "react";
-import Navbar from "../HomeNav";
+import React, { useState, useEffect } from "react";
+import Modal from "react-modal";
 
-const Api = () => {
-  
+Modal.setAppElement('#root');
+
+const Api = ({ isOpen, onClose }) => {
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  useEffect(() => {
+    if (isOpen) {
+      setModalIsOpen(true);
+      document.body.style.overflow = 'hidden';
+    } else {
+      setModalIsOpen(false);
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isOpen]);  
+
   return (
-    <div className="box min-h-screen bg-transparent text-[#D7FE63] flex flex-col items-center">
-      <Navbar />
-      <div className="flex flex-col items-center justify-center flex-grow text-center w-full px-4">
-        <div className="flex flex-col items-center justify-center bg-transparent p-4 rounded-lg" style={{ width: "572px", height: "184.09px" }}>
-          <p className="text-4xl font-bold mb-2">
-            <span className="text-white">FLEXIBLE</span>
-            <span className="text-[#D7FE63]"> PLANS</span>
-          </p>
-          <p className="text-lg text-white">Choose a plan that works best for you</p>
+    <Modal
+      isOpen={isOpen}
+      onRequestClose={onClose}
+      closeTimeoutMS={200}
+      style={{
+        overlay: {
+          backgroundColor: 'rgba(0, 0, 0, 0.75)',
+        },
+        content: {
+          top: '55%',
+          left: '50%',
+          right: 'auto',
+          bottom: 'auto',
+          transform: 'translate(-50%, -50%)',
+          border: '5px solid #D7FE63',
+          borderRadius: '20px',
+          backgroundColor: '#1a1a1a',
+          color: 'white',
+          width: '55%',
+          height: 'auto',
+          overflowY: 'auto',
+          transform: modalIsOpen ? 'translate(-50%, -50%) scale(1)' : 'translate(-50%, -50%) scale(0.9)',
+          opacity: modalIsOpen ? 1 : 0,
+          transition: 'transform 300ms ease-out, opacity 300ms ease-out',
+        },
+      }}
+    >
+      <button
+        onClick={onClose}
+        className="absolute top-4 right-4 font-light text-6xl text-[#D7FE63] bg-transparent border-none cursor-pointer"
+        aria-label="Close"
+      >
+        &times;
+      </button>
+      <div style={{paddingBottom:'3%'}}>
+        <div className="flex items-center justify-center" style={{padding:'3% 5%'}}>
+          <div className="text-center">
+            <h2 className="text-3xl" style={{fontSize:'63px', fontWeight:'500'}}>FLEXIBLE <span className="text-[#D7FE63]">PLANS</span></h2>
+            <p className="text-white mt-[2%] w-[50%] mx-auto">Choose a plan that works best for you</p>
+          </div>
         </div>
-
-        <div className="flex flex-wrap justify-center gap-10 mt-16 w-full px-4">
-          <div className="w-full sm:w-2/3 md:w-auto lg:w-[534px] bg-transparent p-6 rounded-2xl shadow-lg flex flex-col items-center border-x-4 border-y-4 border-[#D7FE63]">
-            <div className="text-xl font-bold mb-4 text-[#D7FE63]">Basic</div>
-            <div className="text-3xl mb-2 text-white items-start">$0.00</div>
-            <div className="text-[#D7FE63] bg-black py-1 px-2 inline-block rounded border border-[#D7FE63]">Free</div>
-            <ul className="text-left mt-4 space-y-2 text-[#D7FE63] text-lg">
+        <div className="flex justify-center flex-wrap gap-10">
+          <div className="bg-transparent border-2 border-[#D7FE63] rounded-lg p-6 w-[40%] text-left" style={{borderRadius:'15px'}}>
+            <h3 className="text-[#D7FE63] text-2xl">Basic</h3>
+            <p className="text-[#D7FE63] text-[12px] mb-[10%]">$0.00<span className="bg-[#D7FE63] ml-[10px] text-black px-1 rounded-md">Free</span></p>
+            <ul className="text-[#D7FE63] list-none p-0 mt-4 space-y-[3px]">
               <li>✔ Access to 7B Model</li>
               <li>✔ Faster than GPT 3.5</li>
               <li>✔ Free Image Generator Feature</li>
               <li>✔ Free Chat with Document</li>
             </ul>
-            <button className="mt-6 bg-[#D7FE63] text-black py-2 px-4 rounded-full hover:bg-black hover:text-white transition duration-300">Choose Plan</button>
+            <button
+              className="bg-[#D7FE63] text-black w-[90%] py-2 px-4 rounded-full border-none cursor-pointer transition-colors duration-300 mt-4"
+              onClick={() => alert('Chosen Basic Plan')}
+            >
+              Choose Plan
+            </button>
           </div>
 
-          <div className="w-full sm:w-2/3 md:w-auto lg:w-[534px] bg-[#D7FE63] p-6 rounded-2xl shadow-lg flex flex-col items-center mt-8 sm:mt-0">
-            <div className="text-xl font-bold mb-4 text-black">Professional</div>
-            <div className="text-3xl mb-2 text-black items-start">$5.00/- per month</div>
-            <ul className="text-left mt-4 space-y-2 text-black text-lg">
+          <div className="bg-[#D7FE63] rounded-lg p-6 w-[40%] text-left" style={{borderRadius:'15px'}}>
+            <h3 className="text-black text-2xl">Professional</h3>
+            <p className="text-black text-[12px] mb-[10%]">$5.00/- per month</p>
+            <ul className="text-black list-none p-0 mt-4 space-y-[3px]">
               <li>✔ Access to 70B Model</li>
               <li>✔ Faster Querying</li>
               <li>✔ More Context</li>
               <li>✔ Free API Access</li>
             </ul>
-            <button className="mt-6 bg-black text-[#D7FE63] py-2 px-4 rounded-full hover:bg-lime-700 hover:text-black transition duration-300">Choose Plan</button>
+            <button
+              className="bg-black text-[#D7FE63] w-[90%] py-2 px-4 rounded-full border-none cursor-pointer transition-colors duration-300 mt-4"
+              onClick={() => alert('Chosen Professional Plan')}
+            >
+              Choose Plan
+            </button>
           </div>
         </div>
       </div>
-    </div>
+    </Modal>
   );
 };
 
